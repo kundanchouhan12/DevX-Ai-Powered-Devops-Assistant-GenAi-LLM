@@ -1,0 +1,13 @@
+const Redis = require("ioredis");
+
+const redis = new Redis({
+  host: process.env.REDIS_HOST || "redis",
+  port: process.env.REDIS_PORT || 6379,
+  maxRetriesPerRequest: null,
+  enableReadyCheck: false, // avoids blocking on startup if Redis not ready yet
+});
+
+redis.on("connect", () => console.log("✅ Worker Redis connected"));
+redis.on("error", (err) => console.error("❌ Worker Redis error:", err.message));
+
+module.exports = redis;

@@ -1,0 +1,30 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# Environment files
+.env
+.env_*
+.history/backend/.env_*
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Build outputs
+dist/
+build/
+out/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+*.dockerignore
+docker-compose.override.yml
+
+# Misc
+.vscode/
+.idea/
