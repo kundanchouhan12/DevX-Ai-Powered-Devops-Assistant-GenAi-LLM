@@ -240,7 +240,7 @@
 //   },
 // };
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 
@@ -251,12 +251,6 @@ export default function Home() {
   const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
 
-  // ===== Check if user is logged in =====
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) navigate("/login"); // redirect to login if not authenticated
-  }, [navigate]);
-
   const analyzeRepo = async () => {
     if (!repoUrl.trim()) {
       alert("Please enter GitHub repo URL");
@@ -265,7 +259,6 @@ export default function Home() {
 
     try {
       setLoading(true);
-      setProgress(0);
       const res = await api.post("/analyze/submit", { repoUrl });
       const id = res.data.jobId;
       setJobId(id);
