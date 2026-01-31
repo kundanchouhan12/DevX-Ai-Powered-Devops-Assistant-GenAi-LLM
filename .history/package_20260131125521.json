@@ -2,11 +2,14 @@
   "name": "ai-devops-assistant",
   "private": true,
   "scripts": {
-    "dev": "docker compose up",           
+    "dev": "concurrently \"npm:frontend\" \"npm:backend\" \"npm:worker\" \"npm:redis\"",
     "dev:build": "docker compose up --build",
     "down": "docker compose down",
+
+    "frontend": "cd frontend && npm run dev",
     "backend": "cd backend && node server.js",
-    "worker": "cd worker && node worker.js"
+    "worker": "cd worker && node worker.js",
+    "redis": "docker compose up redis"
   },
   "dependencies": {
     "axios": "^1.13.3",

@@ -219,13 +219,11 @@ import {
 import FolderIcon from "@mui/icons-material/Folder";
 import CodeIcon from "@mui/icons-material/Code";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
-import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { PieChart, Pie, Tooltip, ResponsiveContainer } from "recharts";
 import ReactMarkdown from "react-markdown";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../services/api";
-
-const COLORS = ["#3b82f6", "#facc15", "#ef4444", "#22c55e", "#8b5cf6", "#fb7185"];
 
 export default function Dashboard() {
   const { jobId } = useParams();
@@ -268,32 +266,15 @@ export default function Dashboard() {
   if (!data && !error) {
     return (
       <Box sx={pageStyle}>
-        <Alert
-          severity="info"
-          sx={{
-            mb: 3,
-            bgcolor: "#1e3a8a",
-            color: "#bfdbfe",
-            fontWeight: 600,
-            textAlign: "center",
-          }}
-        >
+        <Alert severity="info" sx={{ mb: 3 }}>
           🔍 Analyzing repository…
         </Alert>
         <LinearProgress
           variant="determinate"
           value={progress}
-          sx={{
-            height: 12,
-            borderRadius: 6,
-            backgroundColor: "#1e293b",
-            "& .MuiLinearProgress-bar": {
-              borderRadius: 6,
-              background: "linear-gradient(90deg, #3b82f6, #8b5cf6, #facc15)",
-            },
-          }}
+          sx={{ height: 10, borderRadius: 5, mb: 2 }}
         />
-        <Typography sx={{ mt: 2, textAlign: "center", fontWeight: 500, opacity: 0.8 }}>
+        <Typography sx={{ opacity: 0.7 }}>
           Status: {status} ({progress}%)
         </Typography>
       </Box>
@@ -317,16 +298,7 @@ export default function Dashboard() {
   return (
     <Box sx={pageStyle}>
       {/* STATUS */}
-      <Alert
-        severity="success"
-        sx={{
-          mb: 3,
-          bgcolor: "#064e3b",
-          color: "#d1fae5",
-          fontWeight: 600,
-          textAlign: "center",
-        }}
-      >
+      <Alert severity="success" sx={{ mb: 3, bgcolor: "#064e3b", color: "#d1fae5" }}>
         ✅ Analysis completed successfully
       </Alert>
 
@@ -338,30 +310,26 @@ export default function Dashboard() {
       </Grid>
 
       {/* TECH STACK */}
-      <Card sx={{ ...cardStyle, border: "1px solid #334155", mb: 4 }}>
+      <Card sx={{ ...cardStyle, border: "1px solid #334155" }}>
         <CardContent>
           <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
             🧩 Tech Stack
           </Typography>
-
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-            {extensionsData.map((ext, i) => (
+            {extensionsData.map((ext) => (
               <Chip
                 key={ext.name}
                 label={`${ext.name} (${ext.value})`}
                 sx={{
                   bgcolor: "#1e293b",
-                  color: COLORS[i % COLORS.length],
+                  color: "#7dd3fc",
                   fontWeight: 500,
                   px: 2,
                   py: 0.5,
-                  transition: "transform 0.2s",
-                  "&:hover": { transform: "scale(1.1)" },
                 }}
               />
             ))}
           </Box>
-
           {extensionsData.length > 0 && (
             <Box sx={{ height: 260, mt: 4 }}>
               <ResponsiveContainer>
@@ -371,13 +339,8 @@ export default function Dashboard() {
                     dataKey="value"
                     nameKey="name"
                     outerRadius={90}
-                    animationDuration={800}
-                    animationEasing="ease-out"
-                  >
-                    {extensionsData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
+                    fill="#3b82f6"
+                  />
                   <Tooltip
                     contentStyle={{ backgroundColor: "#0f172a", borderRadius: 8 }}
                     itemStyle={{ color: "#fff" }}
@@ -390,7 +353,7 @@ export default function Dashboard() {
       </Card>
 
       {/* AI REPORT */}
-      <Card sx={{ ...cardStyle, border: "1px solid #334155", mb: 4 }}>
+      <Card sx={{ ...cardStyle, border: "1px solid #334155" }}>
         <CardContent>
           <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
             🧠 AI Insights
@@ -408,15 +371,6 @@ export default function Dashboard() {
               "& p": { mb: 1.5 },
               maxHeight: "400px",
               overflowY: "auto",
-              pr: 1,
-              scrollbarWidth: "thin",
-              scrollbarColor: "#3b82f6 #1e293b",
-              "&::-webkit-scrollbar": { width: "8px" },
-              "&::-webkit-scrollbar-thumb": {
-                backgroundColor: "#3b82f6",
-                borderRadius: "4px",
-              },
-              "&::-webkit-scrollbar-track": { backgroundColor: "#1e293b" },
             }}
           >
             <ReactMarkdown>{data.aiReport || "No AI insights generated."}</ReactMarkdown>
@@ -448,12 +402,8 @@ function StatCard({ icon, label, value }) {
       <Card
         sx={{
           ...cardStyle,
-          transition: "transform 0.3s, box-shadow 0.3s, background 0.3s",
-          "&:hover": {
-            transform: "translateY(-7px)",
-            boxShadow: "0 20px 40px rgba(0,0,0,0.5)",
-            background: "linear-gradient(135deg, #0f172a, #1e293b)",
-          },
+          transition: "transform 0.2s, box-shadow 0.2s",
+          "&:hover": { transform: "translateY(-5px)", boxShadow: "0 15px 25px rgba(0,0,0,0.4)" },
         }}
       >
         <CardContent>
@@ -482,10 +432,11 @@ const pageStyle = {
   p: 4,
   fontFamily: "Inter, sans-serif",
 };
+
 const cardStyle = {
   bgcolor: "#020617",
   color: "#e5e7eb",
   borderRadius: 3,
   mb: 4,
-  boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
+  boxShadow: "0 8px 20px rgba(0,0,0,0.3)",
 };
