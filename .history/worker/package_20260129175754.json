@@ -9,8 +9,9 @@
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "axios": "^1.6.7",
+    "bull": "^4.16.5",
+    "bullmq": "^5.1.0",
     "cors": "^2.8.6",
-    "bullmq": "^4.10.0",
     "dotenv": "^16.6.1",
     "express": "^5.2.1",
     "fs-extra": "^11.1.1",
